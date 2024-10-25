@@ -1,0 +1,45 @@
+﻿@model Information_system_labb3.Models.Note
+
+@{
+    ViewData["Title"] = "Create Note";
+}
+
+<h1>Create Note</h1>
+
+<h4>Note</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="NoteDate" class="control-label"></label>
+                <input asp-for="NoteDate" class="form-control" />
+                <span asp-validation-for="NoteDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NoteDescription" class="control-label"></label>
+                <input asp-for="NoteDescription" class="form-control" />
+                <span asp-validation-for="NoteDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AmountOut" class="control-label"></label>
+                <input asp-for="AmountOut" class="form-control" />
+                <span asp-validation-for="AmountOut" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AmountIn" class="control-label"></label>
+                <input asp-for="AmountIn" class="form-control" />
+                <span asp-validation-for="AmountIn" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="DriverId" value="@ViewData["DriverId"]" />
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

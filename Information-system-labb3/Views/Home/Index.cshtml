@@ -1,0 +1,50 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">HEEEEEEJ</h1>
+    <p>
+        <a class="btn btn-primary" asp-controller="Driver" asp-action="Index">Go to Driver Index</a>
+        @if (User.HasClaim("Admin", "true"))
+        {
+            <a class="btn btn-secondary" asp-controller="Employee" asp-action="Index">Go to Employee Index</a>
+            <a class="btn btn-info" asp-controller="Home" asp-action="Notifications">View Notifications</a>
+            <a class="btn btn-warning" asp-controller="Home" asp-action="History">View History</a>
+        }
+    </p>
+</div>
+
+@if (User.HasClaim("Admin", "true"))
+{
+    <div>
+        <h4>Notifications</h4>
+        <hr />
+        @if (Model != null)
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Event Date</th>
+                        <th>Event Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var notification in Model)
+                    {
+                        <tr>
+                            <td>@notification.EventDate.ToShortDateString()</td>
+                            <td>@notification.EventType</td>
+                            <td>@notification.Description</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p>No notifications available for the last 24 hours.</p>
+        }
+    </div>
+}

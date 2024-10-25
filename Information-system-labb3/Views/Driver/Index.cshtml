@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Information_system_labb3.Models.Driver>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Driver Name
+            </th>
+            <th>
+                Car Registration
+            </th>
+            <th>
+                Responsible Employee
+            </th>
+            <th>
+                Total Amount Out
+            </th>
+            <th>
+                Total Amount In
+            </th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DriverName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CarReg)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ResponsibleEmployee)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalAmountOut)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalAmountIn)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.DriverId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.DriverId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.DriverId">Delete</a>
+            </td>
+            <td>
+                <a asp-action="Create" asp-controller="Note" asp-route-driverId="@item.DriverId">Create Note</a> <!-- Create Note button -->
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

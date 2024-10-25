@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Information_system_labb3.Models.Note>
+
+@{
+    ViewData["Title"] = "Notifications";
+}
+
+<h1>Notifications</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Note Date</th>
+            <th>Description</th>
+            <th>Amount Out</th>
+            <th>Amount In</th>
+            <th>Driver Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var note in Model)
+        {
+            <tr>
+                <td>@note.NoteDate.ToShortDateString()</td>
+                <td>@note.NoteDescription</td>
+                <td>@note.AmountOut</td>
+                <td>@note.AmountIn</td>
+                <td>@note.Driver.DriverName</td>
+            </tr>
+        }
+    </tbody>
+</table>
+

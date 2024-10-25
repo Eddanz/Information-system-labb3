@@ -1,0 +1,83 @@
+﻿@model Information_system_labb3.Models.Driver
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Driver</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            Driver Name
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DriverName)
+        </dd>
+        <dt class = "col-sm-2">
+            Car Registration
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CarReg)
+        </dd>
+        <dt class = "col-sm-2">
+            Responsible Employee
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ResponsibleEmployee)
+        </dd>
+        <dt class = "col-sm-2">
+            Total Amount Out
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TotalAmountOut)
+        </dd>
+        <dt class = "col-sm-2">
+            Total Amount In
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TotalAmountIn)
+        </dd>
+    </dl>
+</div>
+
+<div>
+    <h4>Notes</h4>
+    <hr />
+    @if (Model.Notes != null && Model.Notes.Any())
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Note Date</th>
+                    <th>Description</th>
+                    <th>Amount Out</th>
+                    <th>Amount In</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var note in Model.Notes)
+                {
+                    <tr>
+                        <td>@note.NoteDate.ToShortDateString()</td>
+                        <td>@note.NoteDescription</td>
+                        <td>@note.AmountOut</td>
+                        <td>@note.AmountIn</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No notes available for this driver.</p>
+    }
+</div>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.DriverId">Edit</a> |
+    <a asp-action="Index">Back to List</a> |
+    <a asp-action="Create" asp-controller="Note" asp-route-driverId="@Model?.DriverId">Create Note</a> <!-- Create Note button -->
+</div>
