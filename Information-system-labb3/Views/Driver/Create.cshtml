@@ -28,16 +28,6 @@
                 <span asp-validation-for="ResponsibleEmployee" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="TotalAmountOut" class="control-label">Total Amount Out</label>
-                <input asp-for="TotalAmountOut" class="form-control" />
-                <span asp-validation-for="TotalAmountOut" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TotalAmountIn" class="control-label">Total Amount In</label>
-                <input asp-for="TotalAmountIn" class="form-control" />
-                <span asp-validation-for="TotalAmountIn" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
@@ -45,7 +35,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-controller="Home" asp-action="Index">Back to Home</a>
 </div>
 
 @section Scripts {

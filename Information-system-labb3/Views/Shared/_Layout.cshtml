@@ -9,10 +9,12 @@
     <title>@ViewData["Title"] - Driver Log System</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link id="dark-mode-css" rel="stylesheet" href="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav id="main-navbar" class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
                 @if (SignInManager.IsSignedIn(User))
                 {
@@ -30,6 +32,9 @@
                     </ul>
                     @await Html.PartialAsync("_LoginPartial")
                 </div>
+                <button id="dark-mode-toggle" class="btn btn-secondary">
+                    <i id="dark-mode-icon" class="fas"></i>
+                </button>
             </div>
         </nav>
     </header>
@@ -42,6 +47,41 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js"></script>
+    <script>
+        // JavaScript to handle dark mode toggle
+        const toggleButton = document.getElementById('dark-mode-toggle');
+        const darkModeCss = document.getElementById('dark-mode-css');
+        const darkModeKey = 'dark-mode-enabled';
+        const navbar = document.getElementById('main-navbar');
+        const darkModeIcon = document.getElementById('dark-mode-icon');
+
+        function setDarkMode(enabled) {
+            if (enabled) {
+                darkModeCss.href = '@Url.Content("~/css/dark-mode.css")';
+                localStorage.setItem(darkModeKey, 'true');
+                navbar.classList.remove('navbar-light', 'bg-white');
+                navbar.classList.add('navbar-dark', 'bg-dark');
+                darkModeIcon.classList.remove('fa-moon');
+                darkModeIcon.classList.add('fa-sun');
+            } else {
+                darkModeCss.href = '';
+                localStorage.setItem(darkModeKey, 'false');
+                navbar.classList.remove('navbar-dark', 'bg-dark');
+                navbar.classList.add('navbar-light', 'bg-white');
+                darkModeIcon.classList.remove('fa-sun');
+                darkModeIcon.classList.add('fa-moon');
+            }
+        }
+
+        toggleButton.addEventListener('click', () => {
+            const isDarkMode = localStorage.getItem(darkModeKey) === 'true';
+            setDarkMode(!isDarkMode);
+        });
+
+        // Initialize dark mode based on user preference
+        const isDarkMode = localStorage.getItem(darkModeKey) === 'true';
+        setDarkMode(isDarkMode);
+    </script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

@@ -95,8 +95,6 @@ namespace Information_system_labb3.Controllers
         }
 
         // POST: Note/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("NoteId,DriverId,NoteDate,NoteDescription,AmountOut,AmountIn")] Note note)
@@ -110,6 +108,26 @@ namespace Information_system_labb3.Controllers
             {
                 try
                 {
+                    var originalNote = await _context.Notes.AsNoTracking().FirstOrDefaultAsync(n => n.NoteId == id);
+                    if (originalNote == null)
+                    {
+                        return NotFound();
+                    }
+
+                    var driver = await _context.Drivers.FindAsync(note.DriverId);
+                    if (driver != null)
+                    {
+                        // Subtract original note amounts
+                        driver.TotalAmountOut -= originalNote.AmountOut;
+                        driver.TotalAmountIn -= originalNote.AmountIn;
+
+                        // Add updated note amounts
+                        driver.TotalAmountOut += note.AmountOut;
+                        driver.TotalAmountIn += note.AmountIn;
+
+                        _context.Update(driver);
+                    }
+
                     _context.Update(note);
                     await _context.SaveChangesAsync();
                 }
@@ -124,7 +142,7 @@ namespace Information_system_labb3.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Driver", new { id = note.DriverId });
             }
             ViewData["DriverId"] = new SelectList(_context.Drivers, "DriverId", "DriverId", note.DriverId);
             return View(note);
@@ -157,11 +175,21 @@ namespace Information_system_labb3.Controllers
             var note = await _context.Notes.FindAsync(id);
             if (note != null)
             {
+                var driver = await _context.Drivers.FindAsync(note.DriverId);
+                if (driver != null)
+                {
+                    // Subtract note amounts
+                    driver.TotalAmountOut -= note.AmountOut;
+                    driver.TotalAmountIn -= note.AmountIn;
+
+                    _context.Update(driver);
+                }
+
                 _context.Notes.Remove(note);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Details", "Driver", new { id = note.DriverId });
         }
 
         private bool NoteExists(int id)

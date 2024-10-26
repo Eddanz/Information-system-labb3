@@ -1,0 +1,28 @@
+﻿@model IEnumerable<Information_system_labb3.Models.Note>
+
+<table class="table table-striped mt-3">
+    <thead>
+        <tr>
+            <th>Note Date</th>
+            <th>Description</th>
+            <th>Amount Out</th>
+            <th>Amount In</th>
+            <th>Driver Name</th>
+            <th>Responsible Employee</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var note in Model)
+        {
+            <tr>
+                <td>@note.NoteDate.ToShortDateString()</td>
+                <td>@note.NoteDescription</td>
+                <td>@note.AmountOut</td>
+                <td>@note.AmountIn</td>
+                <td>@note.Driver.DriverName</td>
+                <td>@note.Driver.ResponsibleEmployee</td>
+            </tr>
+        }
+    </tbody>
+</table>
+

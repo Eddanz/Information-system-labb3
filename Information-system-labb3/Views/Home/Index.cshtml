@@ -1,50 +1,212 @@
-﻿@{
+﻿@model Information_system_labb3.ViewModels.DashboardViewModel
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">HEEEEEEJ</h1>
-    <p>
-        <a class="btn btn-primary" asp-controller="Driver" asp-action="Index">Go to Driver Index</a>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <h1 class="display-4">
+                @if (User.HasClaim("Admin", "true"))
+                {
+                    @:Admin Dashboard
+                }
+                else
+                {
+                    @:Employee Dashboard
+                }
+            </h1>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Drivers</h5>
+                    <form method="get" asp-action="Index">
+                        <div class="input-group mb-3">
+                            <input type="text" name="searchString" class="form-control" placeholder="Search by driver name" value="@ViewData["searchString"]" />
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-primary">Search</button>
+                            </div>
+                        </div>
+                    </form>
+                    <a class="btn btn-primary mb-2" asp-controller="Driver" asp-action="Create">Create New Driver</a>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Driver Name</th>
+                                <th>Car Registration</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var driver in Model.Drivers)
+                            {
+                                <tr>
+                                    <td>@driver.DriverName</td>
+                                    <td>@driver.CarReg</td>
+                                    <td>
+                                        <a class="btn btn-sm btn-info" asp-controller="Driver" asp-action="Edit" asp-route-id="@driver.DriverId">Edit</a>
+                                        <a class="btn btn-sm btn-secondary" asp-controller="Driver" asp-action="Details" asp-route-id="@driver.DriverId">Details</a>
+                                        <a class="btn btn-sm btn-danger" asp-controller="Driver" asp-action="Delete" asp-route-id="@driver.DriverId">Delete</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        @{
+            var recentNotes = Model.Notes?.Where(note => note.NoteDate >= DateTime.Now.AddDays(-1)).ToList();
+        }
+
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Notifications</h5>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Note Date</th>
+                                <th>Description</th>
+                                <th>Amount Out</th>
+                                <th>Amount In</th>
+                                <th>Driver Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (recentNotes != null && recentNotes.Any())
+                            {
+                                @foreach (var note in recentNotes)
+                                {
+                                    <tr>
+                                        <td>@note.NoteDate.ToShortDateString()</td>
+                                        <td>@note.NoteDescription</td>
+                                        <td>@note.AmountOut</td>
+                                        <td>@note.AmountIn</td>
+                                        <td>@note.Driver.DriverName</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="5" class="text-center">No notes available for the last 24 hours.</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
         @if (User.HasClaim("Admin", "true"))
         {
-            <a class="btn btn-secondary" asp-controller="Employee" asp-action="Index">Go to Employee Index</a>
-            <a class="btn btn-info" asp-controller="Home" asp-action="Notifications">View Notifications</a>
-            <a class="btn btn-warning" asp-controller="Home" asp-action="History">View History</a>
-        }
-    </p>
-</div>
-
-@if (User.HasClaim("Admin", "true"))
-{
-    <div>
-        <h4>Notifications</h4>
-        <hr />
-        @if (Model != null)
-        {
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Event Date</th>
-                        <th>Event Type</th>
-                        <th>Description</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var notification in Model)
-                    {
-                        <tr>
-                            <td>@notification.EventDate.ToShortDateString()</td>
-                            <td>@notification.EventType</td>
-                            <td>@notification.Description</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        }
-        else
-        {
-            <p>No notifications available for the last 24 hours.</p>
+            <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Employees</h5>
+                        <a class="btn btn-primary mb-2" asp-controller="Employee" asp-action="Create">Create New Employee</a>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Employee Name</th>
+                                    <th>Email</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var employee in Model.Employees)
+                                {
+                                    <tr>
+                                        <td>@employee.EmployeeName</td>
+                                        <td>@employee.Email</td>
+                                        <td>
+                                            <a class="btn btn-sm btn-info" asp-controller="Employee" asp-action="Edit" asp-route-id="@employee.EmployeeId">Edit</a>
+                                            <a class="btn btn-sm btn-secondary" asp-controller="Employee" asp-action="Details" asp-route-id="@employee.EmployeeId">Details</a>
+                                            <a class="btn btn-sm btn-danger" asp-controller="Employee" asp-action="Delete" asp-route-id="@employee.EmployeeId">Delete</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">System Overview</h5>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Event Date</th>
+                                    <th>Event Type</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var notification in Model.Notifications)
+                                {
+                                    <tr>
+                                        <td>@notification.EventDate.ToShortDateString()</td>
+                                        <td>@notification.EventType</td>
+                                        <td>@notification.Description</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">History</h5>
+                        <form id="historyFilterForm" method="get" asp-action="FilterHistory">
+                            <div class="form-group">
+                                <label for="driverName">Driver Name</label>
+                                <input type="text" class="form-control" id="driverName" name="driverName" value="@ViewData["driverName"]" />
+                            </div>
+                            <div class="form-group">
+                                <label for="employeeName">Employee Name</label>
+                                <input type="text" class="form-control" id="employeeName" name="employeeName" value="@ViewData["employeeName"]" />
+                            </div>
+                            <div class="form-group">
+                                <label for="startDate">Start Date</label>
+                                <input type="date" class="form-control" id="startDate" name="startDate" value="@ViewData["startDate"]" />
+                            </div>
+                            <div class="form-group">
+                                <label for="endDate">End Date</label>
+                                <input type="date" class="form-control" id="endDate" name="endDate" value="@ViewData["endDate"]" />
+                            </div>
+                            <button type="submit" class="btn btn-primary">Filter</button>
+                        </form>
+                        <div id="historyTable">
+                            @await Html.PartialAsync("_History", Model.History)
+                        </div>
+                    </div>
+                </div>
+            </div>
         }
     </div>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#historyFilterForm').submit(function (event) {
+                event.preventDefault();
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: $(this).attr('method'),
+                    data: $(this).serialize(),
+                    success: function (result) {
+                        $('#historyTable').html(result);
+                    }
+                });
+            });
+        });
+    </script>
 }

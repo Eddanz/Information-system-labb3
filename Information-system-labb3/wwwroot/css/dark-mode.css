@@ -1,0 +1,80 @@
+﻿/* wwwroot/css/dark-mode.css */
+body {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+.navbar-dark {
+    background-color: #1f1f1f !important;
+    border-color: #333 !important;
+}
+
+.navbar-dark .navbar-brand, .navbar-dark .navbar-nav .nav-link {
+    color: #e0e0e0 !important;
+}
+
+.navbar-toggler {
+    border-color: #444;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%288, 8, 8, 0.5%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+.container {
+    background-color: #1f1f1f;
+    color: #e0e0e0;
+}
+
+.btn-secondary {
+    background-color: #333;
+    border-color: #444;
+    color: #e0e0e0;
+}
+
+.btn-secondary:hover {
+    background-color: #444;
+    border-color: #555;
+}
+
+a {
+    color: #bb86fc;
+}
+
+.card {
+    background-color: #1f1f1f;
+    border-color: #333;
+}
+
+.card-body {
+    color: #e0e0e0;
+}
+
+.table {
+    background-color: #1f1f1f;
+    color: #e0e0e0;
+}
+
+.table thead th {
+    background-color: #333;
+    color: #e0e0e0;
+}
+
+.table tbody tr {
+    border-color: #333;
+}
+
+.table tbody tr:nth-of-type(odd) {
+    background-color: #2a2a2a;
+}
+
+.table tbody tr:nth-of-type(even) {
+    background-color: #1f1f1f;
+}
+
+/* Ensure all text inside table cells is white in dark mode */
+.table td {
+    color: #e0e0e0;
+}
+
+/* Add more styles as needed */

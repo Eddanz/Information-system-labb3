@@ -55,6 +55,7 @@
                     <th>Description</th>
                     <th>Amount Out</th>
                     <th>Amount In</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -65,6 +66,10 @@
                         <td>@note.NoteDescription</td>
                         <td>@note.AmountOut</td>
                         <td>@note.AmountIn</td>
+                        <td>
+                            <a asp-action="Edit" asp-controller="Note" asp-route-id="@note.NoteId">Edit</a> |
+                            <a asp-action="Delete" asp-controller="Note" asp-route-id="@note.NoteId">Delete</a>
+                        </td>
                     </tr>
                 }
             </tbody>
@@ -78,6 +83,6 @@
 
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.DriverId">Edit</a> |
-    <a asp-action="Index">Back to List</a> |
+    <a asp-controller="Home" asp-action="Index">Back to Home</a> |
     <a asp-action="Create" asp-controller="Note" asp-route-driverId="@Model?.DriverId">Create Note</a> <!-- Create Note button -->
 </div>
