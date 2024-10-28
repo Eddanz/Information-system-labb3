@@ -70,7 +70,7 @@ namespace Information_system_labb3.Controllers
                     employee.IdentityUserId = user.Id;
                     _context.Add(employee);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction("Index", "Home");
                 }
                 foreach (var error in result.Errors)
                 {

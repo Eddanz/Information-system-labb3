@@ -139,25 +139,27 @@
                 <div class="card h-100">
                     <div class="card-body">
                         <h5 class="card-title">System Overview</h5>
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Event Date</th>
-                                    <th>Event Type</th>
-                                    <th>Description</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var notification in Model.Notifications)
-                                {
+                        <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                            <table class="table table-striped">
+                                <thead>
                                     <tr>
-                                        <td>@notification.EventDate.ToShortDateString()</td>
-                                        <td>@notification.EventType</td>
-                                        <td>@notification.Description</td>
+                                        <th>Event Date</th>
+                                        <th>Event Type</th>
+                                        <th>Description</th>
                                     </tr>
-                                }
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach (var notification in Model.Notifications)
+                                    {
+                                        <tr>
+                                            <td>@notification.EventDate.ToShortDateString()</td>
+                                            <td>@notification.EventType</td>
+                                            <td>@notification.Description</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

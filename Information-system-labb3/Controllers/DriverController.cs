@@ -60,7 +60,7 @@ namespace Information_system_labb3.Controllers
             {
                 _context.Add(driver);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Home");
             }
             ViewData["Employees"] = new SelectList(await _context.Employees.ToListAsync(), "EmployeeName", "EmployeeName", driver.ResponsibleEmployee);
             return View(driver);
